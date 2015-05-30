@@ -20,27 +20,22 @@ grammar CSSGrammar {
     }
 
     token selector {
-        <tag_selector> <id_selector>? <class_selector>*
-         | <universal_selector>
-         | <id_selector> <class_selector>*
-         | <class_selector>+
+        <simple_selector>+ %% <.ws>
     }
 
-    rule simple_selector {
-        <universal_selector> | <type_selector>
+    token simple_selector {
+        ( <universal_selector> | <tag_selector> ) <id_selector>? <class_selector>*
+        | <id_selector> <class_selector>*
+        | <class_selector>+
     }
 
     token property_value { <-[;]>+ }
 
-    token type_selector { <.ident> }
-
-    token universal_selector {
-        "*"
-    }
+    token universal_selector { "*" }
 
     token tag_selector { <.ident> }
     
-    token id_selector { "#" <.ident>+ }
+    token id_selector { "#" <.ident> }
 
-    token class_selector { "." <.ident>+ }
+    token class_selector { "." (<.ident> | '-' )+ }
 }

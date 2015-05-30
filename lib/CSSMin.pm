@@ -32,5 +32,9 @@ class CSSMin {
     method property_value($/) {
         make "$/"
     }
+
+    method tag_selector($/) {
+        make "$/";
+    }
 }
 
