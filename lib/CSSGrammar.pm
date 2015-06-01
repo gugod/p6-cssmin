@@ -1,6 +1,6 @@
 grammar CSSGrammar {
     rule TOP {
-        <cssrule>*
+        <cssrule>* | <.panic: "CSS parsing failed">
     }
 
     rule cssrule {
@@ -38,4 +38,6 @@ grammar CSSGrammar {
     token id_selector { "#" <.ident> }
 
     token class_selector { "." (<.ident> | '-' )+ }
+
+    method panic($e)  {die $e;}
 }
