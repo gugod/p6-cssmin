@@ -18,7 +18,8 @@ class CSSMin {
     }
 
     method selector($/) {
-        make $/.values.join("");
+        my $s = ($/<simple_selector>.list.map: { $_.made }).join('-');
+        make "$s";
     }
 
     method property_kv($/) {
@@ -26,15 +27,9 @@ class CSSMin {
         make($s);
     }
 
-    method property_name($/) {
-        make "$/"
-    }
-    method property_value($/) {
-        make "$/"
-    }
-
-    method tag_selector($/) {
-        make "$/";
-    }
+    method combinator($/) { make "$/" }
+    method simple_selector($/) { make "$/" }
+    method property_name($/) { make "$/" }
+    method property_value($/) { make "$/" }
+    method tag_selector($/) { make "$/" }
 }
-

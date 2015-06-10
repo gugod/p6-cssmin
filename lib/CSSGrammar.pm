@@ -20,7 +20,7 @@ grammar CSSGrammar {
     }
 
     token selector {
-        <simple_selector>+ %% <.ws>
+        <simple_selector> +%% <combinator>?
     }
 
     token simple_selector {
@@ -38,6 +38,8 @@ grammar CSSGrammar {
     token id_selector { "#" <.ident> }
 
     token class_selector { "." (<.ident> | '-' )+ }
+
+    token combinator { ('+'|'>') }
 
     method panic($e)  {die $e;}
 }
