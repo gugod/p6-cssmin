@@ -1,35 +1,68 @@
 class CSSMin {
+    my sub __concat_chunks($matched) {
+        my $s = "";
+        for $matched.chunks -> $c {
+            next if $c.key eq '~';
+            $s ~= $c.value.made;
+        }
+        return $s;
+    }
+
     method TOP($/) {
-        make( ($/<cssrule>.values.map: { $_.made }).join("") );
+        $/.make( ($/<cssrule>.values.map: { $_.made }).join("") );
     }
 
     method cssrule($/) {
         my $s = [
-            $/<selector_list>.values,
+            $/<selector_list>.made,
             '{',
             ($/<property_kv>.values.map: { $_.made }).join(';'),
             '}'
         ].join("");
-        make( $s );
+        $/.make( $s );
     }
 
     method selector_list($/) {
-        make $/<selector>.values.join(",");
+        $/.make: __concat_chunks($/); 
     }
 
     method selector($/) {
-        my $s = ($/<simple_selector>.list.map: { $_.made }).join('-');
-        make "$s";
+        my @o;
+        my $sep = 0;
+        for $/.chunks -> $c {
+            given $c.key {
+                when "simple_selector" {
+                    if $sep != 0 {
+                        @o.push: " ";
+                    } else {
+                        $sep--;
+                    }
+                    @o.push: $c.value.made;
+                }
+                when "combinator" {
+                    $sep++;
+                    @o.push: $c.value.made;
+                }
+            }
+        }
+        my $s = @o.join("");
+        $/.make($s);
+    }
+
+    method simple_selector($/) {
+        $/.make: __concat_chunks($/); 
     }
 
     method property_kv($/) {
         my $s = $/<property_name> ~ ":" ~ $/<property_value>;
-        make($s);
+        $/.make($s);
     }
 
-    method combinator($/) { make "$/" }
-    method simple_selector($/) { make "$/" }
-    method property_name($/) { make "$/" }
-    method property_value($/) { make "$/" }
-    method tag_selector($/) { make "$/" }
+    method tag_selector($/) {
+        $/.make: "$/".trim;
+    }
+
+    method combinator($/) {
+        $/.make: "$/".trim;
+    }
 }

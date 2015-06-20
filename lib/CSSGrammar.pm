@@ -15,31 +15,31 @@ grammar CSSGrammar {
         <property_name> ':' <property_value>
     }
 
-    token property_name {
+    rule property_name {
         '-'?<alpha>(<.ident> | '-')*
     }
 
-    token selector {
+    rule selector {
         <simple_selector> +%% <combinator>?
     }
 
-    token simple_selector {
-        ( <universal_selector> | <tag_selector> ) <id_selector>? <class_selector>*
+    rule simple_selector {
+        [ <universal_selector> | <tag_selector> ] <id_selector>? <class_selector>*
         | <id_selector> <class_selector>*
         | <class_selector>+
     }
 
     token property_value { <-[;]>+ }
 
-    token universal_selector { "*" }
+    token universal_selector { '*' }
 
     token tag_selector { <.ident> }
     
-    token id_selector { "#" <.ident> }
+    token id_selector { '#' <.ident> }
 
-    token class_selector { "." (<.ident> | '-' )+ }
+    token class_selector { '.' [ <.ident> | '-' ]+ }
 
-    token combinator { ('+'|'>') }
+    token combinator { [ '+' | '>' ] }
 
     method panic($e)  {die $e;}
 }

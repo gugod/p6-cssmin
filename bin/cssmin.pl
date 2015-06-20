@@ -6,6 +6,14 @@ use CSSGrammar;
 use CSSMin;
 
 my $cssmin = CSSMin.new();
-my $parsed = CSSGrammar.parsefile(@*ARGS[0], :actions($cssmin));
 
+my $thing = IO::Path.new(@*ARGS[0]).slurp;
+
+my $parsed = CSSGrammar.subparse($thing, :actions($cssmin));
+
+if ( $parsed.to < $thing.chars ) {
+    say "{$parsed.to} ... {$thing.chars}";
+    say $thing.substr(0,$parsed.to) ~ '⏏' ~ $thing.substr($parsed.to+1);
+}
 say $parsed.made;
+# say $parsed.gist;
