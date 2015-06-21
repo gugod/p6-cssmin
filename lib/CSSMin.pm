@@ -58,11 +58,7 @@ class CSSMin {
         $/.make($s);
     }
 
-    method tag_selector($/) {
-        $/.make: "$/".trim;
-    }
-
-    method combinator($/) {
-        $/.make: "$/".trim;
-    }
+    method tag_selector($/) { $/.make: "$/".trim; }
+    method class_selector($/) { $/.make: "$/".trim; }
+    method combinator($/) { $/.make: "$/".trim; }
 }
