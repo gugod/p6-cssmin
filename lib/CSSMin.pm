@@ -58,6 +58,7 @@ class CSSMin {
         $/.make($s);
     }
 
+    method universal_selector($/) { $/.make: "*"; }
     method tag_selector($/) { $/.make: "$/".trim; }
     method id_selector($/) { $/.make: "$/".trim; }
     method class_selector($/) { $/.make: "$/".trim; }
