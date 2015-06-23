@@ -53,10 +53,11 @@ class CSSMin {
     }
 
     method property_kv($/) {
-        my $s = $/<property_name> ~ ":" ~ $/<property_value>;
-        $/.make($s);
+        $/.make: $/<property_name>.made ~ ":" ~ $/<property_value>.made;
     }
 
+    method property_name($/) { $/.make: "$/".trim; }
+    method property_value($/) { $/.make: "$/".trim; }
     method universal_selector($/) { $/.make: "*"; }
     method tag_selector($/) { $/.make: "$/".trim; }
     method id_selector($/) { $/.make: "$/".trim; }
