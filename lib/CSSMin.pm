@@ -13,13 +13,12 @@ class CSSMin {
     }
 
     method cssrule($/) {
-        my $s = [
+        $/.make: [
             $/<selector_list>.made,
             '{',
             ($/<property_kv>.values.map: { $_.made }).join(';'),
             '}'
         ].join("");
-        $/.make( $s );
     }
 
     method selector_list($/) {
