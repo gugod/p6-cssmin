@@ -1,7 +1,9 @@
 grammar CSSGrammar {
     rule TOP {
-        <cssrule>* | <.panic: "CSS parsing failed">
+        (<comment> | <cssrule>)*
     }
+
+    rule comment { '/*' .*? '*/'  }
 
     rule cssrule {
         <selector_list> '{' <property_kv> * %% ';'  '}'

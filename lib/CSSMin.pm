@@ -3,13 +3,21 @@ class CSSMin {
         my $s = "";
         for $matched.chunks -> $c {
             next if $c.key eq '~';
-            $s ~= $c.value.made;
+            if defined( $c.value.made ) {
+                $s ~= $c.value.made;
+            } else {
+                warn "(no val for { $c.key })";
+            }
         }
         return $s;
     }
 
     method TOP($/) {
-        $/.make( ($/<cssrule>.values.map: { $_.made }).join("") );
+        my $s = "";
+        for $/[0].list -> $x {
+            $s ~= __concat_chunks($x);
+        }
+        $/.make: $s;
     }
 
     method cssrule($/) {
@@ -56,6 +64,7 @@ class CSSMin {
         $/.make: $/<property_name>.made ~ ":" ~ $/<property_value>.made;
     }
 
+    method comment($/) { $/.make: "" }
     method property_name($/) { $/.make: "$/".trim; }
     method property_value($/) { $/.make: "$/".trim; }
     method universal_selector($/) { $/.make: "*"; }
