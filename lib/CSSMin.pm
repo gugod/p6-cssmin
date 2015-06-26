@@ -20,6 +20,10 @@ class CSSMin {
         $/.make: $s;
     }
 
+    method cssimport($/) {
+        $/.make: '@import ' ~ $/<where> ~ ';'
+    }
+
     method cssrule($/) {
         $/.make: [
             $/<selector_list>.made,

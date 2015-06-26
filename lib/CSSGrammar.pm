@@ -1,9 +1,13 @@
 grammar CSSGrammar {
     rule TOP {
-        (<comment> | <cssrule>)*
+        (<comment> | <cssimport> | <cssrule>)*
     }
 
     rule comment { '/*' .*? '*/'  }
+
+    rule cssimport {
+        '@import' $<where>=[.+?] ';'
+    }
 
     rule cssrule {
         <selector_list> '{' <property_kv> * %% ';'  '}'
