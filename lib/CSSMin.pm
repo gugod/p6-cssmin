@@ -28,13 +28,17 @@ class CSSMin {
         $/.make: [
             $/<selector_list>.made,
             '{',
-            ($/<property_kv>.values.map: { $_.made }).join(';'),
+            ($/<property_kv_list>.values.map: { $_.made }),
             '}'
         ].join("");
     }
 
     method selector_list($/) {
-        $/.make: __concat_chunks($/); 
+        $/.make: __concat_chunks($/);
+    }
+
+    method property_kv_list($/) {
+        $/.make: __concat_chunks($/);
     }
 
     method selector($/) {

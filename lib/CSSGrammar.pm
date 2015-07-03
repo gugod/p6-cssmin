@@ -10,18 +10,22 @@ grammar CSSGrammar {
     }
 
     rule cssrule {
-        <selector_list> '{' <property_kv> * %% ';'  '}'
+        <selector_list> '{' <property_kv_list>* '}'
     }
 
     rule selector_list {
         <selector>+ %% ','
     }
 
+    rule property_kv_list {
+        <property_kv>+ %% ';'
+    }
+
     rule property_kv {
         <property_name> ':' <property_value>
     }
 
-    rule property_name {
+    token property_name {
         '-'?<alpha>(<.ident> | '-')*
     }
 
