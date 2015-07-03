@@ -3,9 +3,9 @@ grammar CSSGrammar {
         (<comment> | <cssimport> | <cssrule>)*
     }
 
-    rule comment { '/*' .*? '*/'  }
+    token comment { '/*' .*? '*/'  }
 
-    rule cssimport {
+    token cssimport {
         '@import' $<where>=[.+?] ';'
     }
 
@@ -21,7 +21,7 @@ grammar CSSGrammar {
         <property_kv>+ %% ';'
     }
 
-    rule property_kv {
+    token property_kv {
         <property_name> ':' <property_value>
     }
 
