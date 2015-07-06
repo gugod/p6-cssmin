@@ -26,7 +26,7 @@ grammar CSSGrammar {
     }
 
     token property_name {
-        '-'?<alpha>(<.ident> | '-')*
+        '-'?(<alpha> | <.ident> | '-' | '*')*
     }
 
     rule selector {
