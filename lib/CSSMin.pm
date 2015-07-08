@@ -1,15 +1,15 @@
 class CSSMin {
-    my sub __concat_chunks($matched) {
-        my $s = "";
+    my sub __concat_chunks($matched, $sep = "") {
+        my @s;
         for $matched.chunks -> $c {
             next if $c.key eq '~';
             if defined( $c.value.made ) {
-                $s ~= $c.value.made;
+                @s.push: $c.value.made;
             } else {
                 warn "(no val for { $c.key })";
             }
         }
-        return $s;
+        return @s.join($sep);
     }
 
     method TOP($/) {
@@ -38,7 +38,7 @@ class CSSMin {
     }
 
     method property_kv_list($/) {
-        $/.make: __concat_chunks($/);
+        $/.make: __concat_chunks($/, ";");
     }
 
     method selector($/) {
@@ -77,7 +77,8 @@ class CSSMin {
     method property_value($/) { $/.make: "$/".trim; }
     method universal_selector($/) { $/.make: "*"; }
     method tag_selector($/) { $/.make: "$/".trim; }
-    method id_selector($/) { $/.make: "$/".trim; }
+    method id_selector($/) { $/.make: "$/".trim; } 
     method class_selector($/) { $/.make: "$/".trim; }
+    method pseudo_selector($/) { $/.make: "$/".trim; }
     method combinator($/) { $/.make: "$/".trim; }
 }

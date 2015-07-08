@@ -34,10 +34,12 @@ grammar CSSGrammar {
     }
 
     rule simple_selector {
-        [ <universal_selector> | <tag_selector> ] <id_selector>? <class_selector>*
-        | <id_selector> <class_selector>*
-        | <class_selector>+
+        [ <universal_selector> | <tag_selector> ] <id_selector>? <class_selector>* <pseudo_selector>*
+        | <id_selector> <class_selector>*  <pseudo_selector>*	
+        | <class_selector>+  <pseudo_selector>*
     }
+
+    token pseudo_selector { ':' <.ident> }
 
     token property_value { <-[;]>+ }
 
