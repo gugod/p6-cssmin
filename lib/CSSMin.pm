@@ -34,7 +34,7 @@ class CSSMin {
     }
 
     method selector_list($/) {
-        $/.make: __concat_chunks($/);
+        $/.make: __concat_chunks($/, ",");
     }
 
     method property_kv_list($/) {
